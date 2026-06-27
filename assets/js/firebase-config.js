@@ -1,4 +1,5 @@
-// Your Firebase configuration (provided)
+// assets/js/firebase-config.js
+
 const firebaseConfig = {
     apiKey: "AIzaSyAZr7z4pFWnEdZGkcWhHkCgelhKFHY6Iuo",
     authDomain: "gd-sacco.firebaseapp.com",
@@ -9,14 +10,19 @@ const firebaseConfig = {
     measurementId: "G-W06351EVFV"
 };
 
-// Initialize Firebase (compat)
 firebase.initializeApp(firebaseConfig);
 
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-// Enable offline persistence
-db.enablePersistence().catch(err => console.warn('Persistence error:', err));
+// ===== CRITICAL: Set persistence to LOCAL =====
+auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+    .then(() => console.log('✅ Auth persistence set to LOCAL'))
+    .catch(err => console.warn('Persistence error:', err));
+
+// Enable offline persistence for Firestore
+db.enablePersistence()
+    .catch(err => console.warn('Firestore persistence error:', err));
 
 // Helpers
 function getCurrentUser() { return auth.currentUser; }
